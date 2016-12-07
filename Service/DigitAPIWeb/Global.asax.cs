@@ -26,12 +26,12 @@ namespace DigitAPI.Web {
 			Environment.SetEnvironmentVariable("PATH", pathValue);
 
 			// initialize DigitAPI class
-			DigitAPI.Initialize(cntkPath);
+			API.Initialize(cntkPath);
 		}
 
 		protected void Application_End() {
 			// uninitialize DigitAPI class
-			DigitAPI.Uninitialize();
+			API.Uninitialize();
 		}
 	}
 }

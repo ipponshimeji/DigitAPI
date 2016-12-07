@@ -1,31 +1,40 @@
-﻿@{
-    ViewBag.Title = "Home Page";
+﻿@model DigitAPI.Web.Models.HomeViewModel
+@{
+    ViewBag.Title = "Digit API";
 }
 
-<div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="http://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+<div>
+    <p>ロゴ</p>
+    <p>Cognitive Services</p>
 </div>
-
-<div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
-    </div>
+<div>
+    <h1>Digit API</h1>
+    <p>デモ</p>
+    <p>顔を解析してどの数字に似ているかを検出しますが、特になんの役にも立ちません。</p>
+</div>
+<div>
+    <p>API Reference</p>
+</div>
+<div>
+    説明
+</div>
+<div>
+  <div class="demo-image-box">
+@if (string.IsNullOrEmpty(Model.ImageUrl) == false) {
+<img class="demo-image" alt="" src="@Model.ImageUrl" />
+}
+  </div>
+  <div>
+@using (Html.BeginForm("Index", "Home", FormMethod.Post, new { id = "demoForm" })) {
+    <input name="requestUrl" type="text" value="Image URL" data-defultvalue="Image URL"><input type="submit" value="送信" /><input type="button" value="ファイル" onclick="localFile.click()" />
+    <input name="localFile" type="file" accept="image/bmp,image/jpeg,image/png,image/gif" style="visibility: hidden;" onchange="demoForm.enctype = 'multipart/form-data'; demoForm.submit()">
+}
+  </div>
+  <div class="demo-result-box">
+@if (string.IsNullOrEmpty(Model.Result) == false) {
+<pre class="demo-result">@Model.Result</pre>
+} else {
+<pre class="demo-result"></pre>
+}
+  </div>
 </div>

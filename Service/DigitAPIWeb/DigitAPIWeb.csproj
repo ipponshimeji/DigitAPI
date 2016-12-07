@@ -161,12 +161,13 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\ApiV1Controller.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="DigitAPI.cs" />
+    <Compile Include="API.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\RecognizeRequest.cs" />
     <Compile Include="Models\RecognizeResponse.cs" />
+    <Compile Include="Models\HomeViewModel.cs" />
     <Compile Include="Models\Scores.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

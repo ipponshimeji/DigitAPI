@@ -22,3 +22,20 @@ select,
 textarea {
     max-width: 280px;
 }
+
+.demo-image-box, .demo-result-box {
+    max-width: 400px;
+    max-height: 400px;
+}
+
+.demo-image {
+    width: 100%;
+}
+
+.demo-result-box {
+    overflow-y: scroll;
+}
+
+.demo-result {
+    width: 100%;
+}
