@@ -27,6 +27,11 @@ namespace DigitAPI.Web {
 			private set;
 		}
 
+		public static string Copyright {
+			get;
+			private set;
+		}
+
 		#endregion
 
 
@@ -39,8 +44,14 @@ namespace DigitAPI.Web {
 			// read configurations
 			Brand = "[MyBrand]";
 			string value = ConfigurationManager.AppSettings["DigitAPI:Brand"];
-			if (string.IsNullOrEmpty(value) != false) {
+			if (string.IsNullOrEmpty(value) == false) {
 				Brand = value;
+			}
+
+			Copyright = string.Empty;
+			value = ConfigurationManager.AppSettings["DigitAPI:Copyright"];
+			if (string.IsNullOrEmpty(value) == false) {
+				Copyright = value;
 			}
 
 			// debug log

@@ -23,19 +23,117 @@ textarea {
     max-width: 280px;
 }
 
+body {
+    padding-top: 0px;
+}
+
+.container {
+    margin-right: 0px;
+    margin-left: 0px;
+    padding-right: 0px;
+    padding-left: 0px;
+    max-width: none;
+}
+
+
+.home-header {
+    font-family: segoe-ui-light,"Meiryo",sans-serif;
+    font-size: 28px;
+    color: #2f2f2f !important; 
+    margin-left: 60px;
+    padding-top: 20px;
+}
+
+.home-header p {
+    margin: 0;
+}
+
+.home-banner {
+    width: 100%;
+    margin-top: 40px;
+    min-height: 470px;
+    background-color: #2f2f2f;
+    background-image: url("Contents/banner.png");
+}
+
+.home-banner-image {
+    width: 100%;
+    height: 400px;
+    background-image: url("banner.png");
+}
+
+.home-title {
+    color: white;
+    margin-left: 60px;
+    padding-top: 60px;
+}
+
+.home-title h1 {
+    font-size: 40px;
+    font-family: segoe-ui-light,"Meiryo",sans-serif;
+}
+
+.home-title p {
+    font-size: 18px;
+    font-family: segoe-ui-semilight,"Meiryo",sans-serif;
+    max-width: 440px;
+}
+
+.home-link-button {
+    float: right;
+    color: white;
+    background-color: #008272;
+    font-size: 20px;
+    font-family: segoe-ui-semilight,"Meiryo",sans-serif;
+    font-weight: 400;
+    margin-top: 10px;
+    margin-right: 40px;
+    padding: 10px 30px 10px 30px;
+}
+
+.home-description {
+    margin: 0 auto;
+    text-align: center;
+    max-width: 600px;
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+.home-description h2 {
+    font-size: 20px;
+    margin-bottom: 20px;
+}
+
 .demo-image-box, .demo-result-box {
-    max-width: 400px;
-    max-height: 400px;
+    max-width: 600px;
+    min-height: 240px;
+    margin: 0 auto;
+}
+
+.demo-image-area {
+    width: 100%;
+    min-height: 200px;
+    background-color: lightgray;
 }
 
 .demo-image {
     width: 100%;
 }
 
+.demo-form {
+    padding: 10px;
+}
+
 .demo-result-box {
     overflow-y: scroll;
+    border: thin solid darkgray;
 }
 
 .demo-result {
     width: 100%;
+}
+
+.home-footer {
+    text-align: right;
+    font-family: segoe-ui-semilight,"Meiryo",sans-serif;
 }

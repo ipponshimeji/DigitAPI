@@ -18,6 +18,8 @@ namespace DigitAPI.Web.Models {
 
 		public string ImageUrl { get; set; }
 
+		public int ScrollPosition { get; set; }
+
 		#endregion
 
 
