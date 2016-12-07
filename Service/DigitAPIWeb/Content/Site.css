@@ -136,4 +136,5 @@ body {
 .home-footer {
     text-align: right;
     font-family: segoe-ui-semilight,"Meiryo",sans-serif;
+    margin: 16px;
 }

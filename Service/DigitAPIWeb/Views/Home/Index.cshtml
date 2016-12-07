@@ -40,7 +40,7 @@
       </div>
       <div class="demo-form">
 @using (Html.BeginForm("Index", "Home", FormMethod.Post, new { id = "demoForm", onsubmit="scrollPosition.value = document.body.scrollTop" })) {
-        <input name="requestUrl" type="text" data-defultvalue="Image URL"><input type="submit" value="送信" /><input type="button" value="ファイル" onclick="localFile.click()" />
+        <span>Image URL: </span><input name="requestUrl" type="text" data-defultvalue="Image URL"><input type="submit" value="送信" /><input type="button" value="ファイル" onclick="localFile.click()" />
         <input name="localFile" type="file" accept="image/bmp,image/jpeg,image/png,image/gif" style="visibility: hidden;" onchange="scrollPosition.value = document.body.scrollTop; demoForm.enctype = 'multipart/form-data'; demoForm.submit()">
         <input name="scrollPosition" type="hidden" />
 }
