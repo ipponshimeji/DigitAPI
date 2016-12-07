@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
 
-
 namespace DigitAPI.Web {
     public static class WebApiConfig {
         public static void Register(HttpConfiguration config) {
@@ -21,11 +20,11 @@ namespace DigitAPI.Web {
 			// We require only digit/v1.0/recognize
 			/*
 			config.Routes.MapHttpRoute(
-              name: "DefaultApi",
-              routeTemplate: "api/{controller}/{id}",
-              defaults: new { id = RouteParameter.Optional }
+                name: "DefaultApi",
+                routeTemplate: "api/{controller}/{id}",
+                defaults: new { id = RouteParameter.Optional }
             );
 			*/
-		}
-	}
+        }
+    }
 }

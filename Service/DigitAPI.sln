@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DigitAPI", "DigitAPI\DigitA
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Command", "Command\Command.csproj", "{F67CC347-2492-435A-BA15-F87E2DCD081A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DigitAPIWeb", "DigitAPIWeb\DigitAPIWeb.csproj", "{A7E402BB-C99C-417C-B4CF-5C0774F53872}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DigitAPIWeb", "DigitAPIWeb\DigitAPIWeb.csproj", "{11FFC6D5-3471-4B33-AEF0-AFFD669D6727}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +23,10 @@ Global
 		{F67CC347-2492-435A-BA15-F87E2DCD081A}.Debug|x64.Build.0 = Debug|x64
 		{F67CC347-2492-435A-BA15-F87E2DCD081A}.Release|x64.ActiveCfg = Release|x64
 		{F67CC347-2492-435A-BA15-F87E2DCD081A}.Release|x64.Build.0 = Release|x64
-		{A7E402BB-C99C-417C-B4CF-5C0774F53872}.Debug|x64.ActiveCfg = Debug|x64
-		{A7E402BB-C99C-417C-B4CF-5C0774F53872}.Debug|x64.Build.0 = Debug|x64
-		{A7E402BB-C99C-417C-B4CF-5C0774F53872}.Release|x64.ActiveCfg = Release|x64
-		{A7E402BB-C99C-417C-B4CF-5C0774F53872}.Release|x64.Build.0 = Release|x64
+		{11FFC6D5-3471-4B33-AEF0-AFFD669D6727}.Debug|x64.ActiveCfg = Debug|x64
+		{11FFC6D5-3471-4B33-AEF0-AFFD669D6727}.Debug|x64.Build.0 = Debug|x64
+		{11FFC6D5-3471-4B33-AEF0-AFFD669D6727}.Release|x64.ActiveCfg = Release|x64
+		{11FFC6D5-3471-4B33-AEF0-AFFD669D6727}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

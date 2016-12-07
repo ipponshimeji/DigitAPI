@@ -1,6 +1,7 @@
 ﻿using System.Web;
 using System.Web.Optimization;
 
+
 namespace DigitAPI.Web {
 	public class BundleConfig {
 		// バンドルの詳細については、http://go.microsoft.com/fwlink/?LinkId=301862  を参照してください
