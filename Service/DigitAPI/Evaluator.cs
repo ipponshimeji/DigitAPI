@@ -14,9 +14,23 @@ namespace DigitAPI {
 		#region types
 
 		class ModelCache: ModelCacheBase<IEvaluateModelManagedF> {
+			#region data
+
+			private readonly Evaluator owner;
+
+			#endregion
+
+
 			#region creation and disposal
 
-			public ModelCache(int maxCacheCount = DefaultMaxCacheCount): base(maxCacheCount) {
+			public ModelCache(Evaluator owner, int maxCacheCount = DefaultMaxCacheCount): base(maxCacheCount) {
+				// argument checks
+				Debug.Assert(owner != null);
+
+				// initialize members
+				this.owner = owner;
+
+				return;
 			}
 
 			#endregion
@@ -25,7 +39,7 @@ namespace DigitAPI {
 			#region overrides/overridables
 
 			protected override IEvaluateModelManagedF CreateModelImpl() {
-				return Evaluator.CreateModel();
+				return this.owner.CreateModel();
 			}
 
 			#endregion
@@ -52,14 +66,26 @@ namespace DigitAPI {
 		};
 
 
-		private readonly ModelCache modelCache = new ModelCache();
+		private readonly string baseDir;
+
+		private readonly ModelCache modelCache;
 
 		#endregion
 
 
 		#region creation and disposal
 
-		public Evaluator() {
+		public Evaluator(string baseDir = null) {
+			// argument checks
+			if (string.IsNullOrEmpty(baseDir)) {
+				baseDir = Path.GetDirectoryName(typeof(Evaluator).Module.FullyQualifiedName);
+			}
+
+			// initialize members
+			this.baseDir = baseDir;
+			this.modelCache = new ModelCache(this);
+
+			return;
 		}
 
 		public void Dispose() {
@@ -72,7 +98,19 @@ namespace DigitAPI {
 		#region methods
 
 		/// <remarks>This method is thread-safe.</remarks>
-		public List<float> Evaluate(Stream imageStream) {
+		public List<float> Evaluate(Func<Bitmap> loadBitmap) {
+			// argument checks
+			if (loadBitmap == null) {
+				throw new ArgumentNullException(nameof(loadBitmap));
+			}
+
+			// evaluate the image
+			return Evaluate(GetInput(loadBitmap));
+		}
+
+
+		/// <remarks>This method is thread-safe.</remarks>
+		public List<float> Evaluate(Stream imageStream, bool closeStream = true) {
 			// argument checks
 			if (imageStream == null) {
 				throw new ArgumentNullException(nameof(imageStream));
@@ -81,7 +119,13 @@ namespace DigitAPI {
 			// evaluate the image
 			Func<Bitmap> loadBitmap = () => {
 				try {
-					return new Bitmap(imageStream);
+					try {
+						return new Bitmap(imageStream);
+					} finally {
+						if (closeStream) {
+							imageStream.Dispose();
+						}
+					}
 				} catch (ArgumentException) {
 					throw new Exception("The specified resource is not acceptable as image.");
 				}
@@ -139,10 +183,9 @@ namespace DigitAPI {
 
 		#region privates
 
-		private static IEvaluateModelManagedF CreateModel() {
+		private IEvaluateModelManagedF CreateModel() {
 			// detect the path of the model definition
-			string baseDir = Path.GetDirectoryName(typeof(Evaluator).Module.FullyQualifiedName);
-			string modelFilePath = Path.Combine(baseDir, "MNIST.model");
+			string modelFilePath = Path.Combine(this.baseDir, "MNIST.model");
 
 			// create a CNTK evaluate model for DigitAPI
 			IEvaluateModelManagedF model = new IEvaluateModelManagedF();
@@ -181,14 +224,6 @@ namespace DigitAPI {
 			}
 
 			return output;
-		}
-
-		private List<float> Evaluate(Func<Bitmap> loadBitmap) {
-			// argument checks
-			Debug.Assert(loadBitmap != null);
-
-			// evaluate the input
-			return Evaluate(GetInput(loadBitmap));
 		}
 
 		private static Dictionary<string, List<float>> GetInput(Func<Bitmap> loadBitmap) {
