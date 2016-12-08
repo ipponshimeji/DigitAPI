@@ -93,6 +93,7 @@ namespace DigitAPI.Web {
 			}
 
 			Func<Bitmap> loadBitmap = () => {
+				// ToDo: should use Func<Task<Bitmap>> instead of Func<Bitmap> in Evaluation interface to support async?
 				using (HttpClient httpClient = new HttpClient()) {
 					// ToDo: size check
 					// You cannot get imageStream.Length because this stream does not support seek.

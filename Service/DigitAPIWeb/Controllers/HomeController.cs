@@ -38,11 +38,20 @@ namespace DigitAPI.Web.Controllers {
 
 					// Set closeStream to true to dispose the memomry stream immediately after bitmap is created
 					// It prevents from keeping large memory block long time.
-					model.SetResult(API.Recognize(stream, closeStream: true));
+					List<float> output = API.Recognize(stream, closeStream: true);
+					model.SetResult(output);
+					model.ImageText = Evaluator.OutputToString(output);
+
+					Trace.TraceInformation($"Uploaded File; {Evaluator.OutputToString(output, true)}");
 				} else if (string.IsNullOrEmpty(model.RequestUrl) == false) {
 					// process external resource
 					model.ImageUrl = model.RequestUrl;
-					model.SetResult(API.Recognize(model.RequestUrl));
+
+					List<float> output = API.Recognize(model.RequestUrl);
+					model.SetResult(output);
+					model.ImageText = Evaluator.OutputToString(output);
+
+					Trace.TraceInformation($"External Resource; {Evaluator.OutputToString(output, true)}");
 				} else {
 					model.ImageUrl = null;
 				}

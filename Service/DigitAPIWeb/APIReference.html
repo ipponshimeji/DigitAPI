@@ -1,0 +1,84 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>Digit API Reference</title>
+	<meta charset="utf-8" />
+    <link rel="stylesheet" type="text/css" href="Content/Site.css">
+    <style>
+        table, tr, th, td {
+            border: solid thin darkgray;
+        }
+        table {
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 0.5em;
+        }
+    </style>
+</head>
+<body>
+    <h1>Digit API Reference</h1>
+    <h2>Request URL</h2>
+    <pre style="border: solid thin darkgray; padding: 0.5em">http://digitapiweb.azurewebsites.net/digit/v1.0/recognize</pre>
+    <p>
+        httpsはサポートしていません。動かしているWeb AppsプランだとSSL運用できない。
+    </p>
+
+    <h2>Request headers</h2>
+    <table>
+        <tbody>
+            <tr>
+                <th>Content-Type</th><td>application/json</td>
+            </tr>
+        </tbody>
+    </table>
+    <p>
+        認証は不要なので、認証系のヘッダは不要です。
+    </p>
+
+    <h2>Request body</h2>
+    <table>
+        <tbody>
+            <tr>
+                <th>application/json</th>
+                <td><pre>{ "url": "http://example.com/picture.jpg" }</pre>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <p>
+        判定したい画像リソースのURLをしていします。
+        サイズは4M以下にしてください。
+        POSTで送ってください。
+    </p>
+    <p>
+        Emotion APIみたいにapplication/octed-streamを直接送りつけられるようにした方がいいかな。
+    </p>
+
+    <h2>Response 200</h2>
+    <p>
+        成功すると、以下のようなJSONがapplication/jsonで帰ってきます。
+        見たまんまです。
+    </p>
+    <pre>{
+  "scores": {
+    "0": 0.0636444
+    "1": 0.03093502
+    "2": 0.0229848
+    "3": 0.2738763
+    "4": 0.01932725
+    "5": 0.241104
+    "6": 0.05499654
+    "7": 0.1105921
+    "8": 0.04970428
+    "9": 0.1328354
+  }
+}</pre>
+
+    <h2>Response 400</h2>
+    <p>
+        入力が画像でないとか、サイズ超過とか。
+    </p>
+</body>
+</html>

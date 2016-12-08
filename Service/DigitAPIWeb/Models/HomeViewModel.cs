@@ -18,6 +18,8 @@ namespace DigitAPI.Web.Models {
 
 		public string ImageUrl { get; set; }
 
+		public string ImageText { get; set; }
+
 		public int ScrollPosition { get; set; }
 
 		#endregion
@@ -46,7 +48,6 @@ namespace DigitAPI.Web.Models {
 			}
 			buf.AppendLine("  }");
 			buf.AppendLine("}");
-			buf.AppendLine("Detection Result:");
 
 			this.Result = buf.ToString();
 		}

@@ -8,49 +8,50 @@
     window.addEventListener("load", function() {window.scrollTo(0, @Model.ScrollPosition);});
 </script>
 }
-<div class="home-header">
-    <p><img alt="logo" src="~/Content/logo.png"></p>
+<div class="da-header">
+    <p><img alt="ロゴ画像" src="~/Content/logo.png"></p>
     <p>Cognitive Services</p>
 </div>
-<div class="home-banner">
-    <div class="home-banner-image">
-        <div class="home-title">
-            <h1>Digit API</h1>
-            <p>デモ</p>
-            <p>顔を解析してどの数字に似ているかを検出しますが、特になんの役にも立ちません。</p>
-        </div>
-    </div>
-    <div>
-        <p class="home-link-button">API Reference</p>
+<div class="da-banner">
+    <div class="da-banner-caption">
+        <h1>Digit API</h1>
+        <p>デモ</p>
+        <p>顔を解析してどの数字に似ているかを検出しますが、特になんの役にも立ちません。</p>
     </div>
 </div>
-<div class="home-description">
+<div class="da-link-band">
+    <p class="da-link-button" onclick="window.open('/APIReference.html', '_blank')">API Reference</p>
+</div>
+<div class="da-description">
     <h2>画像がどの数字に似ているかを判定します</h2>
     <p>
         Digit APIは画像（顔の画像を含みます）を入力とし、
         どの数字に近いかの確度を返します。
     </p>
+    <ul>
+        <li>このサービスはCNTKの勉強がてら試みに動かしているものです。</li>
+        <li>このサービスはそのうち止めます。（アドベントカレンダーの期間中くらいは動かすつもりですが）</li>
+        <li>オートスケールしていないので、アクセスがたくさんあるとパンクするかもしれません。</li>
+        <li>アップロードした画像は保存していません。</li>
+        <li>評価結果はログをとります。</li>
+    </ul>
 </div>
-<div>
-  <div class="demo-image-box">
-      <div class="demo-image-area">
-@if (string.IsNullOrEmpty(Model.ImageUrl) == false) {
-  <img class="demo-image" alt="" src="@Model.ImageUrl" />
-}
-      </div>
-      <div class="demo-form">
-@using (Html.BeginForm("Index", "Home", FormMethod.Post, new { id = "demoForm", onsubmit="scrollPosition.value = document.body.scrollTop" })) {
-        <span>Image URL: </span><input name="requestUrl" type="text" data-defultvalue="Image URL"><input type="submit" value="送信" /><input type="button" value="ファイル" onclick="localFile.click()" />
-        <input name="localFile" type="file" accept="image/bmp,image/jpeg,image/png,image/gif" style="visibility: hidden;" onchange="scrollPosition.value = document.body.scrollTop; demoForm.enctype = 'multipart/form-data'; demoForm.submit()">
-        <input name="scrollPosition" type="hidden" />
-}
-      </div>
-  </div>
-  <div class="demo-result-box">
-@if (string.IsNullOrEmpty(Model.Result) == false) {
-<pre class="demo-result">@Model.Result</pre>
-} else {
-<pre class="demo-result"></pre>
-}
-  </div>
+<div class="da-demo">
+    <div class="da-demo-image-box">
+        <div class="da-demo-image-pane">
+        @if (string.IsNullOrEmpty(Model.ImageUrl) == false) {
+            <img class="da-demo-image" title="@Model.ImageText" src="@Model.ImageUrl" alt="APIに入力した画像" />
+        }
+        </div>
+        <div class="da-demo-form">
+            @using (Html.BeginForm("Index", "Home", FormMethod.Post, new { id = "demoForm" })) {
+                <span>Image URL: </span><input name="requestUrl" type="text" data-defultvalue="Image URL"><input type="button" value="送信" onclick="scrollPosition.value = document.body.scrollTop; demoForm.submit()" /><input type="button" value="ファイル" onclick="    localFile.click()" />
+                <input name="localFile" type="file" accept="image/bmp,image/jpeg,image/png,image/gif" style="visibility: hidden;" onchange="demoForm.enctype = 'multipart/form-data'; scrollPosition.value = document.body.scrollTop; demoForm.submit()">
+                <input name="scrollPosition" type="hidden" />
+            }
+        </div>
+    </div>
+    <div class="da-demo-result-box">
+        <pre class="da-demo-result">@Model.Result</pre>
+    </div>
 </div>

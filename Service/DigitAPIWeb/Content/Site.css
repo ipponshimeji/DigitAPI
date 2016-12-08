@@ -23,8 +23,12 @@ textarea {
     max-width: 280px;
 }
 
+
+
+/* change default style */
 body {
     padding-top: 0px;
+    font-family: "segoe-ui-normal", "Yu Gothic", "Meiryo", 'Hiragino Kaku Gothic Pro W3', sans-serif;
 }
 
 .container {
@@ -36,105 +40,164 @@ body {
 }
 
 
-.home-header {
-    font-family: segoe-ui-light,"Meiryo",sans-serif;
-    font-size: 28px;
-    color: #2f2f2f !important; 
-    margin-left: 60px;
+.da-header {
+    margin-left: 40px;
     padding-top: 20px;
+    padding-left: 15px;
+    font-size: 30px;
+    font-family: "segoe-ui-light", "Yu Gothic", "Meiryo", 'Hiragino Kaku Gothic Pro W3', sans-serif;
+    color: #2f2f2f
+}
+@media screen and (max-width: 768px) {
+    .da-header {
+        margin-left: 25px;
+        padding-top: 12px;
+        font-size: 20px;
+        font-family: "segoe-ui-semilight", "Yu Gothic", "Meiryo", 'Hiragino Kaku Gothic Pro W3', sans-serif;
+    }
+    .da-header img {
+        height: 28px;
+    }
 }
 
-.home-header p {
+.da-header p {
     margin: 0;
 }
 
-.home-banner {
+.da-banner {
     width: 100%;
+    height: 415px;
     margin-top: 40px;
-    min-height: 470px;
-    background-color: #2f2f2f;
-    background-image: url("Contents/banner.png");
-}
-
-.home-banner-image {
-    width: 100%;
-    height: 400px;
     background-image: url("banner.png");
 }
+@media screen and (max-width: 768px) {
+    .da-banner {
+        height: 300px;
+        margin-top: 4px;
+    }
+}
 
-.home-title {
+.da-banner-caption {
     color: white;
-    margin-left: 60px;
+    margin-left: 40px;
     padding-top: 60px;
+    padding-left: 15px;
+}
+@media screen and (max-width: 768px) {
+    .da-banner-caption {
+        margin-left: 15px;
+        padding-top: 20px;
+    }
 }
 
-.home-title h1 {
-    font-size: 40px;
-    font-family: segoe-ui-light,"Meiryo",sans-serif;
+.da-banner-caption h1 {
+    font-size: 46px;
+    font-family: "segoe-ui-light", "Yu Gothic", "Meiryo", 'Hiragino Kaku Gothic Pro W3', sans-serif;
+}
+@media screen and (max-width: 768px) {
+    .da-banner-caption h1 {
+        margin: 0;
+        font-size: 30px;
+    }
 }
 
-.home-title p {
-    font-size: 18px;
-    font-family: segoe-ui-semilight,"Meiryo",sans-serif;
-    max-width: 440px;
+.da-banner-caption p {
+    font-size: 20px;
+    font-family: "segoe-ui-semilight", "Yu Gothic", "Meiryo", 'Hiragino Kaku Gothic Pro W3', sans-serif;
+    max-width: 480px;
+}
+@media screen and (max-width: 768px) {
+    .da-banner-caption p {
+        font-size: 14px;
+        width: 100%;
+    }
 }
 
-.home-link-button {
+.da-link-band {
+    height: 69px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    background-color: #333333;
+}
+
+.da-link-button {
+    height: 45px;
+    margin-right: 60px;
+    padding: 10px 30px 10px 30px;
     float: right;
     color: white;
     background-color: #008272;
     font-size: 20px;
-    font-family: segoe-ui-semilight,"Meiryo",sans-serif;
-    font-weight: 400;
-    margin-top: 10px;
-    margin-right: 40px;
-    padding: 10px 30px 10px 30px;
-}
-
-.home-description {
-    margin: 0 auto;
+    font-family: "segoe-ui-semilight", "Yu Gothic", "Meiryo", 'Hiragino Kaku Gothic Pro W3', sans-serif;
     text-align: center;
-    max-width: 600px;
-    margin-top: 50px;
-    margin-bottom: 50px;
+}
+@media screen and (max-width: 768px) {
+    .da-link-button {
+        margin: 0 auto;
+        float: none;
+        font-size: 18px;
+        width: 180px;
+    }
+}
+.da-link-button:hover {
+    background-color: #004b50;
 }
 
-.home-description h2 {
+.da-description {
+    margin: 50px auto;
+    text-align: center;
+    max-width: 730px;
+}
+
+.da-description h2 {
     font-size: 20px;
     margin-bottom: 20px;
 }
 
-.demo-image-box, .demo-result-box {
-    max-width: 600px;
-    min-height: 240px;
-    margin: 0 auto;
+.da-description ul {
+    text-align: left;
 }
 
-.demo-image-area {
+.da-demo {
+}
+
+.da-demo-image-box, .da-demo-result-box {
+    width: 80%;
+    max-width: 600px;
+    margin: 0 auto 50px;
+}
+@media screen and (max-width: 768px) {
+    .da-demo-image-box, .da-demo-result-box {
+        margin: 0 auto 15px;
+    }
+}
+
+.da-demo-image-pane {
     width: 100%;
     min-height: 200px;
     background-color: lightgray;
 }
 
-.demo-image {
+.da-demo-image {
     width: 100%;
 }
 
-.demo-form {
+.da-demo-form {
     padding: 10px;
 }
 
-.demo-result-box {
+.da-demo-result-box {
+    min-height: 240px;
     overflow-y: scroll;
     border: thin solid darkgray;
 }
 
-.demo-result {
+.da-demo-result {
     width: 100%;
 }
 
-.home-footer {
+.da-footer {
     text-align: right;
-    font-family: segoe-ui-semilight,"Meiryo",sans-serif;
-    margin: 16px;
+    font-family: "segoe-ui-semilight", "Yu Gothic", "Meiryo", 'Hiragino Kaku Gothic Pro W3', sans-serif;
+    margin: 20px;
 }

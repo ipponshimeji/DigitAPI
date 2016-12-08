@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Web.Http;
 using DigitAPI.Web.Models;
@@ -16,7 +17,9 @@ namespace DigitAPI.Web.Controllers {
 			}
 
 			// call Recognize API
-			RecognizeResponse response = new RecognizeResponse(API.Recognize(request.Url));
+			List<float> output = API.Recognize(request.Url);
+			Trace.TraceInformation($"Uploaded File; {Evaluator.OutputToString(output, true)}");
+			RecognizeResponse response = new RecognizeResponse(output);
 			return Ok(response);
 		}
 	}

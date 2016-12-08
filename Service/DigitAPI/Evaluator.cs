@@ -133,11 +133,6 @@ namespace DigitAPI {
 			return Evaluate(loadBitmap);
 		}
 
-		public async Task<List<float>> EvaluateAsync(Stream imageStream) {
-			return await Task<List<float>>.Run<List<float>>(() => Evaluate(imageStream));
-		}
-
-
 		/// <remarks>This method is thread-safe.</remarks>
 		public List<float> Evaluate(string imageFilePath) {
 			// argument checks
@@ -156,11 +151,7 @@ namespace DigitAPI {
 			return Evaluate(loadBitmap);
 		}
 
-		public async Task<List<float>> EvaluateAsync(string imageFilePath) {
-			return await Task<List<float>>.Run<List<float>>(() => Evaluate(imageFilePath));
-		}
-
-		public static void WriteOutput(TextWriter writer, List<float> output) {
+		public static void WriteOutput(TextWriter writer, List<float> output, bool singleLine = false) {
 			// argument checks
 			if (writer == null) {
 				throw new ArgumentNullException(nameof(writer));
@@ -171,11 +162,28 @@ namespace DigitAPI {
 
 			// write the output to the writer
 			int i = 0;
-			foreach (float value in output) {
-				writer.WriteLine($"{i++}: {value.ToString("g")}");
+			if (singleLine) {
+				string separator = string.Empty;
+				foreach (float value in output) {
+					writer.WriteLine($"{separator}\"{i++}\": {value.ToString("g")}");
+					if (i == 0) {
+						separator = ", ";
+					}
+				}
+			} else {
+				foreach (float value in output) {
+					writer.WriteLine($"\"{i++}\": {value.ToString("g")}");
+				}
 			}
 
 			return;
+		}
+
+		public static string OutputToString(List<float> output, bool singleLine = false) {
+			using (TextWriter writer = new StringWriter()) {
+				WriteOutput(writer, output, singleLine);
+				return writer.ToString();
+			}
 		}
 
 		#endregion
