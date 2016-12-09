@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Web;
@@ -28,17 +29,17 @@ namespace DigitAPI.Web.Controllers {
 					}
 
 					// copy stream to memory to create embedded image url
-					MemoryStream stream = CopyToMemoryStream(model.LocalFile);
-					try {
-						model.ImageUrl = GetEmbeddedImageUrl(model.LocalFile, stream);
-					} catch {
-						stream.Dispose();
-						throw;
-					}
+					Action<Bitmap> scanBitmap = (bitmap) => {
+						int width = 600;
+						if (0 < model.ImageWidth) {
+							width = model.ImageWidth;
+						}
+						model.ImageUrl = GetEmbeddedImageUrl(bitmap, width);
+					};
 
 					// Set closeStream to true to dispose the memomry stream immediately after bitmap is created
 					// It prevents from keeping large memory block long time.
-					List<float> output = API.Recognize(stream, closeStream: true);
+					List<float> output = API.Recognize(model.LocalFile.InputStream, true, scanBitmap);
 					model.SetResult(output);
 					model.ImageText = Evaluator.OutputToString(output);
 
@@ -70,32 +71,30 @@ namespace DigitAPI.Web.Controllers {
 
 		#region privates
 
-		private static MemoryStream CopyToMemoryStream(HttpPostedFileBase uploadedFile) {
+		private static string GetEmbeddedImageUrl(Bitmap bitmap, int width) {
 			// argument checks
-			Debug.Assert(uploadedFile != null);
+			Debug.Assert(bitmap != null);
+			Debug.Assert(0 < width);
 
-			MemoryStream stream = new MemoryStream(uploadedFile.ContentLength);
-			try {
-				uploadedFile.InputStream.CopyTo(stream);
-			} catch {
-				stream.Dispose();
-				throw;
+			using (MemoryStream memoryStream = new MemoryStream()) {
+				// create a shrunk image
+				int height;
+				checked {
+					// calculate height from the ratio of the width 
+					height = (bitmap.Height * width) / bitmap.Width;
+				}
+				using (Bitmap preview = new Bitmap(bitmap, width, height)) {
+					// save the shrunk bitmap as PNG
+					preview.Save(memoryStream, ImageFormat.Png);
+				}
+
+				// convert the PNG image to base64 string
+				Debug.Assert(memoryStream.Length < int.MaxValue);	// original image size is less than 4M
+				return string.Concat(
+					$"data:image/png;base64,",
+					Convert.ToBase64String(memoryStream.GetBuffer(), 0, (int)memoryStream.Length)
+				);
 			}
-
-			return stream;
-		}
-
-		private static string GetEmbeddedImageUrl(HttpPostedFileBase uploadedFile, MemoryStream stream) {
-			// argument checks
-			Debug.Assert(uploadedFile != null);
-			Debug.Assert(stream != null);
-			Debug.Assert(stream.Length < int.MaxValue);
-
-			// convert the stream content to base64 string
-			return string.Concat(
-				$"data:{uploadedFile.ContentType};base64,",
-				Convert.ToBase64String(stream.GetBuffer(), 0, (int)stream.Length)
-			);
 		}
 
 		#endregion

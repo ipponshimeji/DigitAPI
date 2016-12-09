@@ -16,6 +16,8 @@ namespace DigitAPI.Web.Models {
 		
 		public string Result { get; set; }
 
+		public int ImageWidth { get; set; }
+
 		public string ImageUrl { get; set; }
 
 		public string ImageText { get; set; }

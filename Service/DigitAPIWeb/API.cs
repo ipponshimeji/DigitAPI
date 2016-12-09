@@ -77,13 +77,13 @@ namespace DigitAPI.Web {
 
 		#region methods
 
-		public static List<float> Recognize(Stream imageStream, bool closeStream) {
+		public static List<float> Recognize(Stream imageStream, bool closeStream, Action<Bitmap> scanBitmap) {
 			// argument checks
 			if (imageStream == null) {
 				throw new HttpResponseException(System.Net.HttpStatusCode.BadRequest);
 			}
 
-			return evaluator.Evaluate(imageStream, closeStream);
+			return evaluator.Evaluate(imageStream, closeStream, scanBitmap);
 		}
 
 		public static List<float> Recognize(string url) {
@@ -95,7 +95,7 @@ namespace DigitAPI.Web {
 			Func<Bitmap> loadBitmap = () => {
 				// ToDo: should use Func<Task<Bitmap>> instead of Func<Bitmap> in Evaluation interface to support async?
 				using (HttpClient httpClient = new HttpClient()) {
-					// ToDo: size check
+					// ToDo: size/content-type check
 					// You cannot get imageStream.Length because this stream does not support seek.
 					// Maybe I must check Response.
 					var task = httpClient.GetStreamAsync(url);

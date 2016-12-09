@@ -42,16 +42,16 @@
 </div>
 <div class="da-demo">
     <div class="da-demo-image-box">
-        <div class="da-demo-image-pane">
+        <div id="demoImagePane" class="da-demo-image-pane">
         @if (string.IsNullOrEmpty(Model.ImageUrl) == false) {
             <img class="da-demo-image" title="@Model.ImageText" src="@Model.ImageUrl" alt="APIに入力した画像" />
         }
         </div>
         <div class="da-demo-form">
             @using (Html.BeginForm("Index", "Home", FormMethod.Post, new { id = "demoForm" })) {
-                <span>Image URL: </span><input name="requestUrl" type="text" data-defultvalue="Image URL"><input type="button" value="送信" onclick="scrollPosition.value = document.body.scrollTop; demoForm.submit()" /><input type="button" value="ファイル" onclick="    localFile.click()" />
-                <input name="localFile" type="file" accept="image/bmp,image/jpeg,image/png,image/gif" style="visibility: hidden;" onchange="demoForm.enctype = 'multipart/form-data'; scrollPosition.value = document.body.scrollTop; demoForm.submit()">
-                <input name="scrollPosition" type="hidden" />
+                <span>Image URL: </span><input name="requestUrl" type="text" data-defultvalue="Image URL"><input type="button" value="送信" onclick="scrollPosition.value = document.body.scrollTop; imageWidth.value = demoImagePane.clientWidth; demoForm.submit()" /><input type="button" value="ファイル" onclick="localFile.click()" />
+                <input name="localFile" type="file" accept="image/bmp,image/jpeg,image/png,image/gif" style="visibility: hidden;" onchange="demoForm.enctype = 'multipart/form-data'; scrollPosition.value = document.body.scrollTop; imageWidth.value = demoImagePane.clientWidth; demoForm.submit()">
+                <input name="imageWidth" type="hidden" value="0" /><input name="scrollPosition" type="hidden" value="0" />
             }
         </div>
     </div>

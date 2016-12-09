@@ -98,23 +98,25 @@ namespace DigitAPI {
 		#region methods
 
 		/// <remarks>This method is thread-safe.</remarks>
-		public List<float> Evaluate(Func<Bitmap> loadBitmap) {
+		public List<float> Evaluate(Func<Bitmap> loadBitmap, Action<Bitmap> scanBitmap = null) {
 			// argument checks
 			if (loadBitmap == null) {
 				throw new ArgumentNullException(nameof(loadBitmap));
 			}
+			// scanBitmap can be null
 
 			// evaluate the image
-			return Evaluate(GetInput(loadBitmap));
+			return Evaluate(GetInput(loadBitmap, scanBitmap));
 		}
 
 
 		/// <remarks>This method is thread-safe.</remarks>
-		public List<float> Evaluate(Stream imageStream, bool closeStream = true) {
+		public List<float> Evaluate(Stream imageStream, bool closeStream = true, Action<Bitmap> scanBitmap = null) {
 			// argument checks
 			if (imageStream == null) {
 				throw new ArgumentNullException(nameof(imageStream));
 			}
+			// scanBitmap can be null
 
 			// evaluate the image
 			Func<Bitmap> loadBitmap = () => {
@@ -130,15 +132,16 @@ namespace DigitAPI {
 					throw new Exception("The specified resource is not acceptable as image.");
 				}
 			};
-			return Evaluate(loadBitmap);
+			return Evaluate(loadBitmap, scanBitmap);
 		}
 
 		/// <remarks>This method is thread-safe.</remarks>
-		public List<float> Evaluate(string imageFilePath) {
+		public List<float> Evaluate(string imageFilePath, Action<Bitmap> scanBitmap = null) {
 			// argument checks
 			if (string.IsNullOrEmpty(imageFilePath)) {
 				throw new ArgumentNullException(nameof(imageFilePath));
 			}
+			// scanBitmap can be null
 
 			// evaluate the image
 			Func<Bitmap> loadBitmap = () => {
@@ -148,7 +151,7 @@ namespace DigitAPI {
 					throw new Exception($"'{imageFilePath}' is not an acceptable image file.");
 				}
 			};
-			return Evaluate(loadBitmap);
+			return Evaluate(loadBitmap, scanBitmap);
 		}
 
 		public static void WriteOutput(TextWriter writer, List<float> output, bool singleLine = false) {
@@ -165,8 +168,8 @@ namespace DigitAPI {
 			if (singleLine) {
 				string separator = string.Empty;
 				foreach (float value in output) {
-					writer.WriteLine($"{separator}\"{i++}\": {value.ToString("g")}");
-					if (i == 0) {
+					writer.Write($"{separator}\"{i++}\": {value.ToString("g")}");
+					if (i == 1) {
 						separator = ", ";
 					}
 				}
@@ -234,25 +237,27 @@ namespace DigitAPI {
 			return output;
 		}
 
-		private static Dictionary<string, List<float>> GetInput(Func<Bitmap> loadBitmap) {
+		private static Dictionary<string, List<float>> GetInput(Func<Bitmap> loadBitmap, Action<Bitmap> scanBitmap) {
 			// argument checks
 			Debug.Assert(loadBitmap != null);
+			// scanBitmap can be null
 
 			// build an input
 			// Only the 'features' parameter is required.
 			Dictionary<string, List<float>> input = new Dictionary<string, List<float>>(1);
-			input.Add("features", GetFeatures(loadBitmap));
+			input.Add("features", GetFeatures(loadBitmap, scanBitmap));
 
 			return input;
 		}
 
-		private static List<float> GetFeatures(Func<Bitmap> loadBitmap) {
+		private static List<float> GetFeatures(Func<Bitmap> loadBitmap, Action<Bitmap> scanBitmap) {
 			// argument checks
 			Debug.Assert(loadBitmap != null);
+			// scanBitmap can be null
 
 			// get the bitmap adjusted for model input
 			List<float> features;
-			using (Bitmap bitmap = CreateAdjustedBitmap(loadBitmap)) {
+			using (Bitmap bitmap = CreateAdjustedBitmap(loadBitmap, scanBitmap)) {
 				Debug.Assert(bitmap.Width == ImageWidth && bitmap.Height == ImageHeight);
 
 				// convert the bitmap to an array of float
@@ -272,9 +277,10 @@ namespace DigitAPI {
 			return features;
 		}
 
-		private static Bitmap CreateAdjustedBitmap(Func<Bitmap> loadBitmap) {
+		private static Bitmap CreateAdjustedBitmap(Func<Bitmap> loadBitmap, Action<Bitmap> scanBitmap) {
 			// argument checks
 			Debug.Assert(loadBitmap != null);
+			// scanBitmap can be null
 
 			// create a bitmap and adjust it if necessary
 			Bitmap bitmap = loadBitmap();
@@ -283,6 +289,11 @@ namespace DigitAPI {
 				RotateFlipType rf = GetRotateFlipTypeToNormalize(bitmap);
 				if (rf != RotateFlipType.RotateNoneFlipNone) {
 					bitmap.RotateFlip(rf);
+				}
+
+				// perform custom task
+				if (scanBitmap != null) {
+					scanBitmap(bitmap);
 				}
 
 				// adjust its size
@@ -328,7 +339,7 @@ namespace DigitAPI {
 			try {
 				// prepare inputs
 				Dictionary<string, List<float>>[] inputs = imageFilePaths.Select(
-					imageFilePath => GetInput(() => new Bitmap(imageFilePath))
+					imageFilePath => GetInput(() => new Bitmap(imageFilePath), null)
 				).ToArray();
 
 				// call Eval() parallelly
