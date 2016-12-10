@@ -4,7 +4,7 @@
 }
 
 @if (0 < Model.ScrollPosition) {
-<script>
+<script type = 'text/javascript'>
     window.addEventListener("load", function() {window.scrollTo(0, @Model.ScrollPosition);});
 </script>
 }
@@ -36,10 +36,25 @@
         <li>評価結果はログをとります。</li>
     </ul>
     <p>
-        下のテキストボックスに判定したい画像のURLを入れて「送信」ボタンを押すか、
-        「ファイル」ボタンを押してローカルファイルをアップロードしてください。
+        以下のいずれかの方法でAPIを試すことができます。
     </p>
+    <ul>
+        <li>下のサンプル画像を選択して、サンプル画像を評価する。</li>
+        <li>下のテキストボックスに画像のURLを記入して「送信」ボタンを押し、インターネット上の画像を評価する。</li>
+        <li>「ファイル」ボタンを押して、デバイス内の画像ファイルをアップロードして評価する。</li>
+    </ul>
 </div>
+<script type='text/javascript'>
+    function da_submitForm() {
+        scrollPosition.value = document.body.scrollTop;
+        imageWidth.value = demoImagePane.clientWidth;
+        demoForm.submit();
+    }
+    function da_selectSample(index) {
+        sampleIndex.value = index;        
+        da_submitForm();
+    }
+</script>
 <div class="da-demo">
     <div class="da-demo-image-box">
         <div id="demoImagePane" class="da-demo-image-pane">
@@ -49,13 +64,27 @@
         </div>
         <div class="da-demo-form">
             @using (Html.BeginForm("Index", "Home", FormMethod.Post, new { id = "demoForm" })) {
-                <span>Image URL: </span><input name="requestUrl" type="text" data-defultvalue="Image URL"><input type="button" value="送信" onclick="scrollPosition.value = document.body.scrollTop; imageWidth.value = demoImagePane.clientWidth; demoForm.submit()" /><input type="button" value="ファイル" onclick="localFile.click()" />
-                <input name="localFile" type="file" accept="image/bmp,image/jpeg,image/png,image/gif" style="visibility: hidden;" onchange="demoForm.enctype = 'multipart/form-data'; scrollPosition.value = document.body.scrollTop; imageWidth.value = demoImagePane.clientWidth; demoForm.submit()">
-                <input name="imageWidth" type="hidden" value="0" /><input name="scrollPosition" type="hidden" value="0" />
+                <span>Image URL: </span><input name="requestUrl" type="text" data-defultvalue="Image URL"><input type="button" value="送信" onclick="da_submitForm();" /><input type="button" value="ファイル" onclick="localFile.click()" />
+                <input name="localFile" type="file" accept="image/bmp,image/jpeg,image/png,image/gif" style="visibility: hidden;" onchange="demoForm.enctype = 'multipart/form-data'; da_submitForm()">
+                <input id="sampleIndex" name="sampleIndex" type="hidden" value="-1" /><input id="imageWidth" name="imageWidth" type="hidden" value="0" /><input id="scrollPosition" name="scrollPosition" type="hidden" value="0" />
             }
         </div>
     </div>
     <div class="da-demo-result-box">
         <pre class="da-demo-result">@Model.Result</pre>
     </div>
+</div>
+<div class="da-sample-box">
+    @{ string[] samples = DigitAPI.Web.Models.HomeViewModel.Samples; }
+    @for (int i = 0; i < samples.Length; ++i) {
+        string sampleFileName = samples[i];
+        string sampleUrl = $"/Content/{sampleFileName}";
+        string sampleAlt = $"サンプル画像 その{i + 1}";
+
+        if (Model.SampleIndex == i) {
+        <img class="da-sample-selected-image" src="@sampleUrl" alt="@sampleAlt" />
+        } else {
+        <img class="da-sample-image" src="@sampleUrl" alt="@sampleAlt" onclick="da_selectSample(@i)" />
+        }
+    }
 </div>

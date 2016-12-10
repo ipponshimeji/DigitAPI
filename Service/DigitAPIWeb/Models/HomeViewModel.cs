@@ -10,6 +10,15 @@ namespace DigitAPI.Web.Models {
 	public class HomeViewModel {
 		#region data
 
+		public static string[] Samples = new string[] {
+			"sample1.png",
+			"sample2.png",
+			"sample3.png"
+		};
+
+
+		public int SampleIndex { get; set; } = -1;
+
 		public string RequestUrl { get; set; }
 
 		public HttpPostedFileBase LocalFile { get; set; }

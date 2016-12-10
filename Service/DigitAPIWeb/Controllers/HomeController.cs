@@ -22,7 +22,20 @@ namespace DigitAPI.Web.Controllers {
 
 			// call Recognize API
 			try {
-				if (model.LocalFile != null) {
+				if (0 <= model.SampleIndex) {
+					// process sample images
+					if (HomeViewModel.Samples.Length <= model.SampleIndex) {
+						throw API.CreateBadRequestException();
+					}
+					string sampleFileName = HomeViewModel.Samples[model.SampleIndex];
+
+					model.ImageUrl = $"/Content/{sampleFileName}";
+					List<float> output = API.RecognizeFromFile(Server.MapPath(model.ImageUrl));
+					model.SetResult(output);
+					model.ImageText = Evaluator.OutputToString(output);
+
+					Trace.TraceInformation($"Sample {model.SampleIndex}; {Evaluator.OutputToString(output, true)}");
+				} else if (model.LocalFile != null) {
 					// process uploaded file
 					if (API.MaxImageSize < model.LocalFile.ContentLength) {
 						throw API.CreateSizeException();
@@ -39,7 +52,7 @@ namespace DigitAPI.Web.Controllers {
 
 					// Set closeStream to true to dispose the memomry stream immediately after bitmap is created
 					// It prevents from keeping large memory block long time.
-					List<float> output = API.Recognize(model.LocalFile.InputStream, true, scanBitmap);
+					List<float> output = API.RecognizeFromStream(model.LocalFile.InputStream, true, scanBitmap);
 					model.SetResult(output);
 					model.ImageText = Evaluator.OutputToString(output);
 
@@ -48,7 +61,7 @@ namespace DigitAPI.Web.Controllers {
 					// process external resource
 					model.ImageUrl = model.RequestUrl;
 
-					List<float> output = API.Recognize(model.RequestUrl);
+					List<float> output = API.RecognizeFromUrl(model.RequestUrl);
 					model.SetResult(output);
 					model.ImageText = Evaluator.OutputToString(output);
 

@@ -77,16 +77,25 @@ namespace DigitAPI.Web {
 
 		#region methods
 
-		public static List<float> Recognize(Stream imageStream, bool closeStream, Action<Bitmap> scanBitmap) {
+		public static List<float> RecognizeFromStream(Stream imageStream, bool closeStream, Action<Bitmap> scanBitmap) {
 			// argument checks
 			if (imageStream == null) {
-				throw new HttpResponseException(System.Net.HttpStatusCode.BadRequest);
+				throw CreateBadRequestException();
 			}
 
 			return evaluator.Evaluate(imageStream, closeStream, scanBitmap);
 		}
 
-		public static List<float> Recognize(string url) {
+		public static List<float> RecognizeFromFile(string imageFilePath) {
+			// argument checks
+			if (string.IsNullOrEmpty(imageFilePath)) {
+				throw CreateBadRequestException();
+			}
+
+			return evaluator.Evaluate(imageFilePath);
+		}
+
+		public static List<float> RecognizeFromUrl(string url) {
 			// argument checks
 			if (string.IsNullOrEmpty(url)) {
 				throw new ArgumentNullException(nameof(url));

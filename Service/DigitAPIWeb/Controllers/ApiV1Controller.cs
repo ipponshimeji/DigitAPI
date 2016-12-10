@@ -17,7 +17,7 @@ namespace DigitAPI.Web.Controllers {
 			}
 
 			// call Recognize API
-			List<float> output = API.Recognize(request.Url);
+			List<float> output = API.RecognizeFromUrl(request.Url);
 			Trace.TraceInformation($"Uploaded File; {Evaluator.OutputToString(output, true)}");
 			RecognizeResponse response = new RecognizeResponse(output);
 			return Ok(response);
