@@ -11,13 +11,7 @@ namespace DigitAPI.Web {
             // Web API ルート
             config.MapHttpAttributeRoutes();
 
-			config.Routes.MapHttpRoute(
-				name: "recognize",
-				routeTemplate: "digit/v1.0/recognize",
-				defaults: new { controller = "ApiV1", action = "Recognize" }
-			);
-
-			// We require only digit/v1.0/recognize
+			// We require only digit/v1.0/recognize, which is specified as a RouteAttribute
 			/*
 			config.Routes.MapHttpRoute(
                 name: "DefaultApi",

@@ -19,17 +19,34 @@
 </head>
 <body>
     <h1>Digit API Reference</h1>
+
+    <p>
+        Digit APIは、
+        画像を入力すると、
+        その画像が数字（0-9）にどのくらい近いかの確度を現す数値を返します。
+    </p>
+    <p>
+        要するに、MNISTの学習済モデルにむりやり画像を突っ込んで、
+        各ラベル（0-9）の値を出しています。
+        この値は合計で1になるように調整されています。
+    </p>
+    <p>
+        MNISTのモデルは黒背景に白字の画像で訓練されています。
+        一般的な画像としては白背景に黒字を想定すると思うので、
+        評価前に値を白黒反転させて評価するようにしています。
+    </p>
+
     <h2>Request URL</h2>
     <pre style="border: solid thin darkgray; padding: 0.5em">http://digitapiweb.azurewebsites.net/digit/v1.0/recognize</pre>
     <p>
-        httpsはサポートしていません。動かしているWeb AppsプランだとSSL運用できない。
+        httpsはサポートしていません。これを動かしているAzure Web Appsの安いプランだとSSL運用できないのです。
     </p>
 
     <h2>Request headers</h2>
     <table>
         <tbody>
             <tr>
-                <th>Content-Type</th><td>application/json</td>
+                <th>Content-Type</th><td>送るRequest Bodyの種類（後述）に応じた値</td>
             </tr>
         </tbody>
     </table>
@@ -45,15 +62,21 @@
                 <td><pre>{ "url": "http://example.com/picture.jpg" }</pre>
                 </td>
             </tr>
+            <tr>
+                <th>application/octet-stream</th>
+                <td>
+                    （画像のバイナリデータ）
+                </td>
+            </tr>
         </tbody>
     </table>
     <p>
-        判定したい画像リソースのURLをしていします。
-        サイズは4M以下にしてください。
-        POSTで送ってください。
+        "application/json"で送る場合、
+        urlには評価したい画像のURLを指定します。
     </p>
     <p>
-        Emotion APIみたいにapplication/octed-streamを直接送りつけられるようにした方がいいかな。
+        サイズは4M以下にしてください。
+        POSTで送ってください。
     </p>
 
     <h2>Response 200</h2>
@@ -78,7 +101,7 @@
 
     <h2>Response 400</h2>
     <p>
-        入力が画像でないとか、サイズ超過とか。
+        リクエストのJSONがおかしいとか、content-typeが認識できないとか、入力が画像でないとか、サイズ超過とか。
     </p>
 </body>
 </html>

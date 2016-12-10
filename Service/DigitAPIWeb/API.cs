@@ -106,10 +106,8 @@ namespace DigitAPI.Web {
 				using (HttpClient httpClient = new HttpClient()) {
 					// ToDo: size/content-type check
 					// You cannot get imageStream.Length because this stream does not support seek.
-					// Maybe I must check Response.
-					var task = httpClient.GetStreamAsync(url);
-					task.Wait();
-					using (Stream imageStream = task.Result) {
+					// Maybe I must check HttResponse directly.
+					using (Stream imageStream = httpClient.GetStreamAsync(url).Result) {
 						return new Bitmap(imageStream);
 					}
 				}
