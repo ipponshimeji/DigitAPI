@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 
 
 namespace DigitAPI.Web.Models {
-	public class HomeViewModel {
+	public class HomeIndexResponse {
 		#region data
 
 		public static string[] Samples = new string[] {
@@ -17,21 +17,30 @@ namespace DigitAPI.Web.Models {
 		};
 
 
-		public int SampleIndex { get; set; } = -1;
+		public HomeIndexRequest Request { get; }
 
-		public string RequestUrl { get; set; }
+		public string Result { get; set; } = null;
 
-		public HttpPostedFileBase LocalFile { get; set; }
-		
-		public string Result { get; set; }
+		public string ImageUrl { get; set; } = null;
 
-		public int ImageWidth { get; set; }
+		public string ImageText { get; set; } = string.Empty;
 
-		public string ImageUrl { get; set; }
+		#endregion
 
-		public string ImageText { get; set; }
 
-		public int ScrollPosition { get; set; }
+		#region creation and disposal
+
+		public HomeIndexResponse(HomeIndexRequest request) {
+			// argument checks
+			if (request == null) {
+				throw new ArgumentNullException(nameof(request));
+			}
+
+			// initialize member
+			this.Request = request;
+
+			return;
+		}
 
 		#endregion
 

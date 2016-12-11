@@ -1,11 +1,11 @@
-﻿@model DigitAPI.Web.Models.HomeViewModel
+﻿@model DigitAPI.Web.Models.HomeIndexResponse
 @{
     ViewBag.Title = "Digit API";
 }
 
-@if (0 < Model.ScrollPosition) {
+@if (0 < Model.Request.ScrollPosition) {
 <script type = 'text/javascript'>
-    window.addEventListener("load", function() {window.scrollTo(0, @Model.ScrollPosition);});
+    window.addEventListener("load", function() {window.scrollTo(0, @Model.Request.ScrollPosition);});
 </script>
 }
 <div class="da-header">
@@ -75,13 +75,13 @@
     </div>
 </div>
 <div class="da-sample-box">
-    @{ string[] samples = DigitAPI.Web.Models.HomeViewModel.Samples; }
+    @{ string[] samples = DigitAPI.Web.Models.HomeIndexResponse.Samples; }
     @for (int i = 0; i < samples.Length; ++i) {
         string sampleFileName = samples[i];
         string sampleUrl = $"/Content/{sampleFileName}";
         string sampleAlt = $"サンプル画像 その{i + 1}";
 
-        if (Model.SampleIndex == i) {
+        if (Model.Request.SampleIndex == i) {
         <img class="da-sample-selected-image" src="@sampleUrl" alt="@sampleAlt" />
         } else {
         <img class="da-sample-image" src="@sampleUrl" alt="@sampleAlt" onclick="da_selectSample(@i)" />

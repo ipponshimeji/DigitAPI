@@ -14,69 +14,70 @@ namespace DigitAPI.Web.Controllers {
 	public class HomeController: Controller {
 		#region action methods
 
-		public ActionResult Index(HomeViewModel model) {
+		public ActionResult Index(HomeIndexRequest request) {
 			// argument checks
-			if (model == null) {
+			if (request == null) {
 				throw API.CreateBadRequestException();
 			}
 
 			// call Recognize API
+			HomeIndexResponse response = new HomeIndexResponse(request);
 			try {
-				if (0 <= model.SampleIndex) {
+				if (0 <= request.SampleIndex) {
 					// process sample images
-					if (HomeViewModel.Samples.Length <= model.SampleIndex) {
+					if (HomeIndexResponse.Samples.Length <= request.SampleIndex) {
 						throw API.CreateBadRequestException();
 					}
-					string sampleFileName = HomeViewModel.Samples[model.SampleIndex];
+					string sampleFileName = HomeIndexResponse.Samples[request.SampleIndex];
 
-					model.ImageUrl = $"/Content/{sampleFileName}";
-					List<float> output = API.RecognizeFromFile(Server.MapPath(model.ImageUrl));
-					model.SetResult(output);
-					model.ImageText = Evaluator.OutputToString(output);
+					response.ImageUrl = $"/Content/{sampleFileName}";
+					List<float> output = API.RecognizeFromFile(Server.MapPath(response.ImageUrl));
+					response.SetResult(output);
+					response.ImageText = Evaluator.OutputToString(output);
 
-					Trace.TraceInformation($"Sample {model.SampleIndex}; {Evaluator.OutputToString(output, true)}");
-				} else if (model.LocalFile != null) {
+					Trace.TraceInformation($"Sample {request.SampleIndex}; {Evaluator.OutputToString(output, true)}");
+				} else if (request.LocalFile != null) {
 					// process uploaded file
-					if (API.MaxImageSize < model.LocalFile.ContentLength) {
+					if (API.MaxImageSize < request.LocalFile.ContentLength) {
 						throw API.CreateSizeException();
 					}
 
 					// copy stream to memory to create embedded image url
 					Action<Bitmap> scanBitmap = (bitmap) => {
 						int width = 600;
-						if (0 < model.ImageWidth) {
-							width = model.ImageWidth;
+						if (0 < request.ImageWidth) {
+							width = request.ImageWidth;
 						}
-						model.ImageUrl = GetEmbeddedImageUrl(bitmap, width);
+						response.ImageUrl = GetEmbeddedImageUrl(bitmap, width);
 					};
 
 					// Set closeStream to true to dispose the memomry stream immediately after bitmap is created
 					// It prevents from keeping large memory block long time.
-					List<float> output = API.RecognizeFromStream(model.LocalFile.InputStream, true, scanBitmap);
-					model.SetResult(output);
-					model.ImageText = Evaluator.OutputToString(output);
+					List<float> output = API.RecognizeFromStream(request.LocalFile.InputStream, true, scanBitmap);
+					response.SetResult(output);
+					response.ImageText = Evaluator.OutputToString(output);
 
 					Trace.TraceInformation($"Uploaded File; {Evaluator.OutputToString(output, true)}");
-				} else if (string.IsNullOrEmpty(model.RequestUrl) == false) {
+				} else if (string.IsNullOrEmpty(request.RequestUrl) == false) {
 					// process external resource
-					model.ImageUrl = model.RequestUrl;
+					response.ImageUrl = request.RequestUrl;
 
-					List<float> output = API.RecognizeFromUrl(model.RequestUrl);
-					model.SetResult(output);
-					model.ImageText = Evaluator.OutputToString(output);
+					List<float> output = API.RecognizeFromUrl(request.RequestUrl);
+					response.SetResult(output);
+					response.ImageText = Evaluator.OutputToString(output);
 
 					Trace.TraceInformation($"External Resource; {Evaluator.OutputToString(output, true)}");
 				} else {
-					model.ImageUrl = null;
+					response.ImageUrl = null;
 				}
 			} catch (Exception exception) {
-				model.ImageUrl = null;
-				model.SetResult(exception);
+				response.ImageUrl = null;
+				response.SetResult(exception);
 			} finally {
-				model.LocalFile = null;
+				request.LocalFile = null;
 			}
 
-			return View(model);
+			return View(response);
 		}
 
 		#endregion

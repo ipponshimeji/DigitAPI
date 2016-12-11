@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using Newtonsoft.Json;
 
+
 namespace DigitAPI.Web.Models {
 	public class RecognizeRequest {
 		#region data
