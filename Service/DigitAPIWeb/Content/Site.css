@@ -176,7 +176,7 @@ body {
 }
 
 .da-demo-image {
-    max-width: 600px;
+    max-width: 100%;
     height: auto;
 }
 

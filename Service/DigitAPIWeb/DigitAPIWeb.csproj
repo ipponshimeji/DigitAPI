@@ -175,6 +175,7 @@
     <Content Include="Content\sample1.png" />
     <Content Include="Content\sample2.png" />
     <Content Include="Content\sample3.png" />
+    <Content Include="Content\Doc.css" />
     <Content Include="ReleaseHistory.html" />
     <Content Include="APIReference.html" />
     <Content Include="Content\banner.png" />

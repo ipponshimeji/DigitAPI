@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title>Digit API Reference</title>
 	<meta charset="utf-8" />
-    <link rel="stylesheet" type="text/css" href="Content/Site.css">
+    <link rel="stylesheet" type="text/css" href="Content/Doc.css">
     <style>
         table, tr, th, td {
             border: solid thin darkgray;
@@ -18,8 +18,9 @@
     </style>
 </head>
 <body>
-    <h1>Digit API Reference</h1>
+    <h1>Digit API</h1>
 
+    <h2>Digit Recognition</h2>
     <p>
         Digit APIは、
         画像を入力すると、
@@ -36,13 +37,17 @@
         評価前に値を白黒反転させて評価するようにしています。
     </p>
 
-    <h2>Request URL</h2>
-    <pre style="border: solid thin darkgray; padding: 0.5em">http://digitapiweb.azurewebsites.net/digit/v1.0/recognize</pre>
+    <h3>Request URL</h3>
+    <table>
+        <tbody>
+            <tr><td><pre>http://digitapiweb.azurewebsites.net/digit/v1.0/recognize</pre></td></tr>
+        </tbody>
+    </table>
     <p>
-        httpsはサポートしていません。これを動かしているAzure Web Appsの安いプランだとSSL運用できないのです。
+        httpsはサポートしていません。これを動かしているAzure Web Appsの安いプランだとSSL運用できないです。
     </p>
 
-    <h2>Request headers</h2>
+    <h3>Request headers</h3>
     <table>
         <tbody>
             <tr>
@@ -54,7 +59,7 @@
         認証は不要なので、認証系のヘッダは不要です。
     </p>
 
-    <h2>Request body</h2>
+    <h3>Request body</h3>
     <table>
         <tbody>
             <tr>
@@ -79,12 +84,14 @@
         POSTで送ってください。
     </p>
 
-    <h2>Response 200</h2>
+    <h3>Response 200</h3>
     <p>
         成功すると、以下のようなJSONがapplication/jsonで帰ってきます。
         見たまんまです。
     </p>
-    <pre>{
+    <table>
+        <tbody>
+            <tr><td><pre>{
   "scores": {
     "0": 0.0636444
     "1": 0.03093502
@@ -98,8 +105,11 @@
     "9": 0.1328354
   }
 }</pre>
+            </td></tr>
+        </tbody>
+    </table>
 
-    <h2>Response 400</h2>
+    <h3>Response 400</h3>
     <p>
         リクエストのJSONがおかしいとか、content-typeが認識できないとか、入力が画像でないとか、サイズ超過とか。
     </p>

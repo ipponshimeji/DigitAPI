@@ -1,0 +1,45 @@
+﻿body {
+    padding: 50px 2em 20px;
+    font-family: "wf_segoe-ui_normal","Segoe UI","Yu Gothic","Meiryo","Hiragino Kaku Gothic Pro W3","Arial",sans-serif;
+    font-size: 14px;
+}
+
+h1, h2, h3  {
+    font-family: "wf_segoe-ui_light","Segoe UI Light","Yu Gothic","Meiryo","Hiragino Kaku Gothic Pro W3", "Arial",sans-serif;
+    font-weight: 500;
+}
+
+h1 {
+    font-size: 32px;
+}
+
+h2 {
+    font-size: 23px;
+}
+
+h3 {
+    font-size: 18px;
+    color: #505050;
+}
+
+pre, .code {
+    font-family: "Menlo","Monaco","Consolas","Courier New",monospace;
+    font-size: 13px;
+}
+
+table, tr, th, td {
+    border: solid thin gray;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 0.5em;
+}
+
+.box {
+    border: solid thin darkgray;
+    padding: 0.5em;
+}
